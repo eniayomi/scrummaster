@@ -1,0 +1,13 @@
+<h3>{{dataservice.message}}</h3>
+<h2>Login</h2>
+<form (ngSubmit)="login()">
+  <label for="login_username">Username:</label>
+  <input type="text" id="login_username" [(ngModel)]="dataservice.login_username" name="login_username">
+  <br>
+  <label for="login_password">Password:</label>
+  <input type="password" id="login_password" [(ngModel)]="dataservice.login_password" name="login_password">
+  <br>
+  <input type="submit" value="Login">
+</form>
+<br>
+<button (click)="toUser()" style="border: 2px solid black; border-radius: 5px; padding: 10px; padding-top: 4px; padding-bottom: 4px;">Create A User</button>

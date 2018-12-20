@@ -1,0 +1,53 @@
+<h2>Currently Logged In As {{dataservice.username}} - {{dataservice.role}}</h2>
+<button (click)="logout()" style="border: 2px solid black; border-radius: 5px; padding: 10px; padding-top: 4px; padding-bottom: 4px;">Logout</button>
+<h3>Add Goal</h3>
+<form (ngSubmit)="addGoal()">
+	<label for="goal">Name: </label>
+	<input type="text" id="goal" [(ngModel)]="dataservice.goal_name" name="goal">
+	<input type="submit" value="Add Goal">
+</form>
+<h3>{{dataservice.message}}</h3>
+<style>
+	.full-box {
+		display: table-cell;
+		vertical-align: middle;
+		text-align: center;
+		border: 2px solid black;
+		padding: 10px;
+	}
+	.top-box {
+		display: table-cell;
+		vertical-align: middle;
+		text-align: center;
+		border: 1px solid gray;
+		border-top: 2px solid black;
+		padding: 10px;
+	}
+	.reg-box {
+		display: table-cell;
+		vertical-align: middle;
+		text-align: center;
+		border: 1px solid gray;
+		padding: 10px;
+	}
+</style>
+<div style="display: table; table-layout: fixed; width: 700px; word-wrap: break-word; border-collapse: collapse; border: 2px solid black;">
+	<div style="display: table-row">
+		<th colspan="6" class="full-box">Available Goals</th>
+	</div>	
+	<div style="display: table-row">
+		<th class="full-box">Created By</th>
+		<th class="full-box">Weekly Goal</th>
+		<th class="full-box">Daily Target</th>
+		<th class="full-box">Verify</th>
+		<th class="full-box">Done</th>
+		<th class="full-box">Remove</th>
+	</div>	
+	<ng-container *ngFor="let user of dataservice.users">
+		<div style="display: table-row" *ngFor="let goal of user.goalstatus_set; let j = index; let k = count" dragula="mainTable" [attr.id] = "goal.id">	
+			<td *ngIf="j == 0" [attr.rowspan]="k" class="full-box" id="author">{{user.nickname}}</td>
+			<div *ngFor="let arrItem of arrCount" [ngClass]="j == 0 ? 'top-box' : 'reg-box'" [innerText]="goal.status == arrItem ? goal.id + ') ' + goal.name : '-'" [attr.id]="goal.status == arrItem ? arrItem : 'blank'"></div>
+			<div [ngClass]="j == 0 ? 'top-box' : 'reg-box'" id="remove">-</div>
+		</div>
+	</ng-container>	
+</div>
