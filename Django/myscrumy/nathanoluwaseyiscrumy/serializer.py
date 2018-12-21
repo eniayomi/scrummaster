@@ -10,4 +10,4 @@ class ScrumyUserSerializer(serializers.ModelSerializer):
 	goalstatus_set = GoalStatusSerializer(many=True)
 	class Meta:
 		model = ScrumyUser
-		fields = ('nickname', 'goalstatus_set')				
+		fields = ('nickname', 'id', 'goalstatus_set')				

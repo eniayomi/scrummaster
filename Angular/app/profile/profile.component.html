@@ -1,10 +1,10 @@
 <h2>Currently Logged In As {{dataservice.username}} - {{dataservice.role}}</h2>
 <button (click)="logout()" style="border: 2px solid black; border-radius: 5px; padding: 10px; padding-top: 4px; padding-bottom: 4px;">Logout</button>
-<h3>Add Goal</h3>
+<h3><u>Add Task</u></h3>
 <form (ngSubmit)="addGoal()">
-	<label for="goal">Name: </label>
-	<input type="text" id="goal" [(ngModel)]="dataservice.goal_name" name="goal">
-	<input type="submit" value="Add Goal">
+	<textarea rows="4" cols="35" id="goal" [(ngModel)]="dataservice.goal_name" name="goal"></textarea>
+	<br>
+	<input type="submit" value="Add Task">
 </form>
 <h3>{{dataservice.message}}</h3>
 <style>
@@ -17,6 +17,7 @@
 	}
 	.top-box {
 		display: table-cell;
+		font-size: 10pt;
 		vertical-align: middle;
 		text-align: center;
 		border: 1px solid gray;
@@ -25,6 +26,7 @@
 	}
 	.reg-box {
 		display: table-cell;
+		font-size: 10pt;
 		vertical-align: middle;
 		text-align: center;
 		border: 1px solid gray;
@@ -33,7 +35,7 @@
 </style>
 <div style="display: table; table-layout: fixed; width: 700px; word-wrap: break-word; border-collapse: collapse; border: 2px solid black;">
 	<div style="display: table-row">
-		<th colspan="6" class="full-box">Available Goals</th>
+		<th colspan="6" class="full-box">Available Tasks</th>
 	</div>	
 	<div style="display: table-row">
 		<th class="full-box">Created By</th>
@@ -44,9 +46,12 @@
 		<th class="full-box">Remove</th>
 	</div>	
 	<ng-container *ngFor="let user of dataservice.users">
+		<div *ngIf="user.goalstatus_set.length == 0" style="display: table-row;" dragula="mainTable" [attr.id]="'u' + user.id">
+			<td class="full-box" id="author" colspan="6">{{user.nickname}} - NO TASKS FOR THIS USER</td>
+		</div>
 		<div style="display: table-row" *ngFor="let goal of user.goalstatus_set; let j = index; let k = count" dragula="mainTable" [attr.id] = "goal.id">	
 			<td *ngIf="j == 0" [attr.rowspan]="k" class="full-box" id="author">{{user.nickname}}</td>
-			<div *ngFor="let arrItem of arrCount" [ngClass]="j == 0 ? 'top-box' : 'reg-box'" [innerText]="goal.status == arrItem ? goal.id + ') ' + goal.name : '-'" [attr.id]="goal.status == arrItem ? arrItem : 'blank'"></div>
+			<div *ngFor="let arrItem of arrCount" [ngClass]="j == 0 ? 'top-box' : 'reg-box'" [innerText]="goal.status == arrItem ? goal.id + ') ' + goal.name : '-'" [attr.id]="goal.status == arrItem ? arrItem : 'blank'" (click)="goal.status == arrItem ? editGoal($event) : doNothing()"></div>
 			<div [ngClass]="j == 0 ? 'top-box' : 'reg-box'" id="remove">-</div>
 		</div>
 	</ng-container>	
